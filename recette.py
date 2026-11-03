@@ -68,6 +68,33 @@ def convertir(ingredients, table):
     return resultat
 
 
+def tableau(ingredients): 
+    """Le tableau Markdown des ingrédients, une ligne par ingrédient.""" 
+    texte = "| Ingrédient | Quantité |\n" 
+    texte = texte + "|---|---|\n" 
+    for nom, quantite, unite in ingredients: 
+        texte = texte + "| " + nom + " | " + str(round(quantite, 1)) + " " + unite + " |\n" 
+    return texte
+    
+    
+def ecrire_markdown(nom, personnes, unites, ingredients): 
+    """Le texte de recettes/<nom>.md, avec le tableau des ingrédients sous « ## Ingrédients », écrit dans sortie/ ; renvoie son chemin.""" 
+    source = (DONNEES / (nom + ".md")).read_text(encoding="utf-8") 
+    intitule = "## Ingrédients pour " + str(personnes) + " personnes, en unités " + unites 
+    remplacement = intitule + "\n\n" + tableau(ingredients) 
+    complete = source.replace("## Ingrédients", remplacement) 
+    markdown = SORTIE / (nom + ".md") 
+    markdown.write_text(complete, encoding="utf-8") 
+    return markdown
+
+    
+
+
+
+
+
+
+
 # ---- Le programme -------------------------------------------------------------
 
 # Les valeurs viennent de la ligne de commande
